@@ -3,6 +3,15 @@
 import sys
 
 sequence = input("Please enter an RNA sequence: ")
+complement_dict = {'A':'U', 'G':'C', 'C':'G', 'U':'A'}
+bases = ['A', 'a', 'U', 'u', 'C', 'c', 'G', 'g']
+
+"""Making sure that the input is an RNA seq, not a DNA seq."""
+
+for x in sequence:
+    if x not in bases:
+        print("Please enter an RNA sequence, try again.")
+        exit()
 
 def translate_sequence(rna_sequence, genetic_code):
     """Translates a sequence of RNA into a sequence of amino acids.
@@ -81,7 +90,9 @@ def get_reverse(sequence):
     """
     return (sequence[::-1]).upper()
 
-print(get_reverse(sequence))
+    """Lists the sequence backwards"""
+
+print("The sequence reversed is", get_reverse(sequence))
 
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
@@ -97,7 +108,16 @@ def get_complement(sequence):
     >>> get_reverse('ATGC')
     'TACG'
     """
-    pass
+    seq_list = list(sequence.upper())
+    seq_list = [complement_dict[base] for base in seq_list]
+    return ''.join(seq_list)
+
+    """Used list comprehension to create a new list. Start by making the sequence input into
+    a list, all uppercase. Take that same list and find its value according to the dictionary
+    defined earlier, then make that into a new list. Finally join the new list together
+    with no separation in between letters to get the complement."""
+
+print("The complement is", get_complement(sequence))
 
 def reverse_and_complement(sequence):
     """Get the reversed and complemented form of a `sequence` of nucleotides.
