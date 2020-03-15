@@ -2,6 +2,8 @@
 
 import sys
 
+sequence = input("Enter your RNA sequence: ")
+
 def translate_sequence(rna_sequence, genetic_code):
     """Translates a sequence of RNA into a sequence of amino acids.
 
@@ -77,7 +79,8 @@ def get_reverse(sequence):
     >>> get_reverse('ATGC')
     'CGTA'
     """
-    pass
+    print(sequence[::-1]) """Takes the whole sequence and works backwards in
+                          printing it, due to the -1"""
 
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
