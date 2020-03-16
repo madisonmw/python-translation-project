@@ -6,91 +6,97 @@ sequence = input("Please enter an RNA sequence: ")
 complement_dict = {'A':'U', 'G':'C', 'C':'G', 'U':'A'}
 bases = ['A', 'a', 'U', 'u', 'C', 'c', 'G', 'g']
 
-"""Making sure that the input is an RNA seq, not a DNA seq."""
+#Making sure that the input is an RNA seq, not a DNA seq.
 
 for x in sequence:
     if x not in bases:
         print("Please enter an RNA sequence, try again.")
         exit()
 
-def translate_sequence(rna_sequence, genetic_code):
-    """Translates a sequence of RNA into a sequence of amino acids.
+#def translate_sequence(sequence, genetic_code):
+seq_list = list(sequence)
+def chunks(seq_list, chunk_size):
+    for i in range(0, len(seq_list), chunk_size):
+        yield seq_list[i:i + chunk_size]
+    return(chunks(seq_list, 3))
 
-    Translates `rna_sequence` into string of amino acids, according to the
-    `genetic_code` given as a dict. Translation begins at the first position of
-    the `rna_sequence` and continues until the first stop codon is encountered
-    or the end of `rna_sequence` is reached.
+print("Your chunks are", list(chunks(seq_list, 3)))
 
-    If `rna_sequence` is less than 3 bases long, or starts with a stop codon,
-    an empty string is returned.
+#   Translates a sequence of RNA into a sequence of amino acids.
+#
+#    Translates `rna_sequence` into string of amino acids, according to the
+#    `genetic_code` given as a dict. Translation begins at the first position of
+#    the `rna_sequence` and continues until the first stop codon is encountered
+#    or the end of `rna_sequence` is reached.
+#
+#    If `rna_sequence` is less than 3 bases long, or starts with a stop codon,
+#    an empty string is returned.
+#
+#    Parameters
+#    ----------
+#    sequence : str
+#        A string representing an RNA sequence (upper or lower-case).
+#
+#    genetic_code : dict
+#        A dictionary mapping all 64 codons (strings of three RNA bases) to
+#        amino acids (string of single-letter amino acid abbreviation). Stop
+#        codons should be represented with asterisks ('*').
+#
+#    Returns
+#    -------
+#    str
+#        A string of the translated amino acids
 
-    Parameters
-    ----------
-    rna_sequence : str
-        A string representing an RNA sequence (upper or lower-case).
+def get_all_translations(sequence, genetic_code):
+#Get a list of all amino acid sequences encoded by an RNA sequence.
+#
+#    All three reading frames of `rna_sequence` are scanned from 'left' to
+#    'right', and the generation of a sequence of amino acids is started
+#    whenever the start codon 'AUG' is found. The `rna_sequence` is assumed to
+#    be in the correct orientation (i.e., no reverse and/or complement of the
+#    sequence is explored).
+#
+#    The function returns a list of all possible amino acid sequences that
+#    are encoded by `rna_sequence`.
+#
+#    If no amino acids can be translated from `rna_sequence`, an empty list is
+#    returned.
+#
+#    Parameters
+#    ----------
+#    rna_sequence : str
+#        A string representing an RNA sequence (upper or lower-case).
+#
+#    genetic_code : dict
+#        A dictionary mapping all 64 codons (strings of three RNA bases) to
+#        amino acids (string of single-letter amino acid abbreviation). Stop
+#        codons should be represented with asterisks ('*').
+#
+#    Returns
+#    -------
+#    list
+#        A list of strings; each string is an sequence of amino acids encoded by
+#        `rna_sequence`.
 
-    genetic_code : dict
-        A dictionary mapping all 64 codons (strings of three RNA bases) to
-        amino acids (string of single-letter amino acid abbreviation). Stop
-        codons should be represented with asterisks ('*').
-
-    Returns
-    -------
-    str
-        A string of the translated amino acids.
-    """
-    pass
-
-def get_all_translations(rna_sequence, genetic_code):
-    """Get a list of all amino acid sequences encoded by an RNA sequence.
-
-    All three reading frames of `rna_sequence` are scanned from 'left' to
-    'right', and the generation of a sequence of amino acids is started
-    whenever the start codon 'AUG' is found. The `rna_sequence` is assumed to
-    be in the correct orientation (i.e., no reverse and/or complement of the
-    sequence is explored).
-
-    The function returns a list of all possible amino acid sequences that
-    are encoded by `rna_sequence`.
-
-    If no amino acids can be translated from `rna_sequence`, an empty list is
-    returned.
-
-    Parameters
-    ----------
-    rna_sequence : str
-        A string representing an RNA sequence (upper or lower-case).
-
-    genetic_code : dict
-        A dictionary mapping all 64 codons (strings of three RNA bases) to
-        amino acids (string of single-letter amino acid abbreviation). Stop
-        codons should be represented with asterisks ('*').
-
-    Returns
-    -------
-    list
-        A list of strings; each string is an sequence of amino acids encoded by
-        `rna_sequence`.
-    """
     pass
 
 def get_reverse(sequence):
-    """Reverse orientation of `sequence`.
-
-    Returns a string with `sequence` in the reverse order.
-
-    If `sequence` is empty, an empty string is returned.
-
-    Examples
-    --------
-    >>> get_reverse('AUGC')
-    'CGUA'
-    >>> get_reverse('ATGC')
-    'CGTA'
-    """
+#    Reverse orientation of `sequence`.
+#
+#    Returns a string with `sequence` in the reverse order.
+#
+#    If `sequence` is empty, an empty string is returned.
+#
+#    Examples
+#    --------
+#    >>> get_reverse('AUGC')
+#    'CGUA'
+#    >>> get_reverse('ATGC')
+#    'CGTA'
+#
     return (sequence[::-1]).upper()
 
-    """Lists the sequence backwards"""
+#Lists the sequence backwards
 
 print("The reversed sequence is", get_reverse(sequence))
 
