@@ -92,7 +92,7 @@ def get_reverse(sequence):
 
     """Lists the sequence backwards"""
 
-print("The sequence reversed is", get_reverse(sequence))
+print("The reversed sequence is", get_reverse(sequence))
 
 def get_complement(sequence):
     """Get the complement of a `sequence` of nucleotides.
@@ -134,7 +134,13 @@ def reverse_and_complement(sequence):
     >>> reverse_and_complement('ATGC')
     'GCAT'
     """
-    pass
+    seq = get_reverse(sequence)
+    seq = get_complement(seq)
+    return seq
+
+    """Takes the previous functions defined and uses them again here"""
+
+print("The reversed complement is", reverse_and_complement(sequence))
 
 def get_longest_peptide(rna_sequence, genetic_code):
     """Get the longest peptide encoded by an RNA sequence.
