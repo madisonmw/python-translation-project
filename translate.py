@@ -13,14 +13,13 @@ for x in sequence:
         print("Please enter an RNA sequence, try again.")
         exit()
 
-#def translate_sequence(sequence, genetic_code):
 seq_list = list(sequence)
-def chunks(seq_list, chunk_size):
-    for i in range(0, len(seq_list), chunk_size):
-        yield seq_list[i:i + chunk_size]
-    return(chunks(seq_list, 3))
 
-print("Your chunks are", list(chunks(seq_list, 3)))
+codon = (seq_list[i:i+3] for i in range(0, len(seq_list), 3)) #Generator that breaks the sequence into 3 parts.
+for x in codon:
+    print(''.join(x))
+
+def translate_sequence(sequence, genetic_code):
 
 #   Translates a sequence of RNA into a sequence of amino acids.
 #
@@ -101,80 +100,80 @@ def get_reverse(sequence):
 print("The reversed sequence is", get_reverse(sequence))
 
 def get_complement(sequence):
-    """Get the complement of a `sequence` of nucleotides.
+#Get the complement of a `sequence` of nucleotides.
+#
+#    Returns a string with the complementary sequence of `sequence`.
+#
+#    If `sequence` is empty, an empty string is returned.
+#
+#    Examples
+#    --------
+#    >>> get_reverse('AUGC')
+#    'UACG'
+#    >>> get_reverse('ATGC')
+#    'TACG'
 
-    Returns a string with the complementary sequence of `sequence`.
-
-    If `sequence` is empty, an empty string is returned.
-
-    Examples
-    --------
-    >>> get_reverse('AUGC')
-    'UACG'
-    >>> get_reverse('ATGC')
-    'TACG'
-    """
     seq_list = list(sequence.upper())
     seq_list = [complement_dict[base] for base in seq_list]
     return ''.join(seq_list)
 
-    """Used list comprehension to create a new list. Start by making the sequence input into
-    a list, all uppercase. Take that same list and find its value according to the dictionary
-    defined earlier, then make that into a new list. Finally join the new list together
-    with no separation in between letters to get the complement."""
+#Used list comprehension to create a new list. Start by making the sequence input into
+#a list, all uppercase. Take that same list and find its value according to the dictionary
+#defined earlier, then make that into a new list. Finally join the new list together
+#with no separation in between letters to get the complement."""
 
 print("The complement is", get_complement(sequence))
 
 def reverse_and_complement(sequence):
-    """Get the reversed and complemented form of a `sequence` of nucleotides.
+#Get the reversed and complemented form of a `sequence` of nucleotides.
+#
+#    Returns a string that is the reversed and complemented sequence
+#    of `sequence`.
+#
+#    If `sequence` is empty, an empty string is returned.
+#
+#    Examples
+#    --------
+#    >>> reverse_and_complement('AUGC')
+#    'GCAU'
+#    >>> reverse_and_complement('ATGC')
+#    'GCAT'
 
-    Returns a string that is the reversed and complemented sequence
-    of `sequence`.
-
-    If `sequence` is empty, an empty string is returned.
-
-    Examples
-    --------
-    >>> reverse_and_complement('AUGC')
-    'GCAU'
-    >>> reverse_and_complement('ATGC')
-    'GCAT'
-    """
     seq = get_reverse(sequence)
     seq = get_complement(seq)
     return seq
 
-    """Takes the previous functions defined and uses them again here"""
+#Takes the previous functions defined and uses them again here"""
 
 print("The reversed complement is", reverse_and_complement(sequence))
 
 def get_longest_peptide(rna_sequence, genetic_code):
-    """Get the longest peptide encoded by an RNA sequence.
+#Get the longest peptide encoded by an RNA sequence.
+#
+#    Explore six reading frames of `rna_sequence` (the three reading frames of
+#    `rna_sequence`, and the three reading frames of the reverse and complement
+#    of `rna_sequence`) and return (as a string) the longest sequence of amino
+#    acids that it encodes, according to the `genetic_code`.
+#
+#    If no amino acids can be translated from `rna_sequence` nor its reverse and
+#    complement, an empty string is returned.
+#
+#    Parameters
+#    ----------
+#    rna_sequence : str
+#        A string representing an RNA sequence (upper or lower-case).
+#
+#    genetic_code : dict
+#        A dictionary mapping all 64 codons (strings of three RNA bases) to
+#        amino acids (string of single-letter amino acid abbreviation). Stop
+#        codons should be represented with asterisks ('*').
+#
+#    Returns
+#    -------
+#    str
+#        A string of the longest sequence of amino acids encoded by
+#        `rna_sequence`.
 
-    Explore six reading frames of `rna_sequence` (the three reading frames of
-    `rna_sequence`, and the three reading frames of the reverse and complement
-    of `rna_sequence`) and return (as a string) the longest sequence of amino
-    acids that it encodes, according to the `genetic_code`.
-
-    If no amino acids can be translated from `rna_sequence` nor its reverse and
-    complement, an empty string is returned.
-
-    Parameters
-    ----------
-    rna_sequence : str
-        A string representing an RNA sequence (upper or lower-case).
-
-    genetic_code : dict
-        A dictionary mapping all 64 codons (strings of three RNA bases) to
-        amino acids (string of single-letter amino acid abbreviation). Stop
-        codons should be represented with asterisks ('*').
-
-    Returns
-    -------
-    str
-        A string of the longest sequence of amino acids encoded by
-        `rna_sequence`.
-    """
     pass
 
 
