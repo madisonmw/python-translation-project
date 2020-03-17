@@ -1,3 +1,4 @@
+
 #! /usr/bin/env python3
 
 import sys
@@ -15,11 +16,7 @@ for x in sequence:
 
 seq_list = list(sequence)
 
-codon = (seq_list[i:i+3] for i in range(0, len(seq_list), 3)) #Generator that breaks the sequence into 3 parts.
-for x in codon:
-    print(''.join(x))
-
-def translate_sequence(sequence, genetic_code):
+def translate_sequence(rna_sequence, genetic_code):
 
 #   Translates a sequence of RNA into a sequence of amino acids.
 #
@@ -46,7 +43,25 @@ def translate_sequence(sequence, genetic_code):
 #    str
 #        A string of the translated amino acids
 
-def get_all_translations(sequence, genetic_code):
+#    tr_codon = [genetic_code[code] for code in codon]
+#    return ''.join(tr_codon)
+
+    rna_sequence = rna_sequence.upper()
+    protein = []
+    if len(rna_sequence) < 3:
+        return ''
+    elif len(rna_sequence) % 3 != 0:
+        rna_sequence = rna_sequence[:-1]
+
+    for x in range(0, len(rna_sequence), 3):
+        if genetic_code[rna_sequence[x:x+3]] == '*':
+            break
+
+        codon = rna_sequence[x:x+3]
+        protein += genetic_code[codon]
+    return ''.join(protein)
+
+def get_all_translations(rna_sequence, genetic_code):
 #Get a list of all amino acid sequences encoded by an RNA sequence.
 #
 #    All three reading frames of `rna_sequence` are scanned from 'left' to
