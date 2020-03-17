@@ -6,15 +6,6 @@ import sys
 complement_dict = {'A':'U', 'G':'C', 'C':'G', 'U':'A'}
 bases = ['A', 'a', 'U', 'u', 'C', 'c', 'G', 'g']
 
-#Making sure that the input is an RNA seq, not a DNA seq.
-
-for x in sequence:
-    if x not in bases:
-        print("Please enter an RNA sequence, try again.")
-        exit()
-
-seq_list = list(sequence)
-
 def translate_sequence(rna_sequence, genetic_code):
 
 #   Translates a sequence of RNA into a sequence of amino acids.
@@ -180,8 +171,7 @@ def get_longest_peptide(rna_sequence, genetic_code):
 #    Explore six reading frames of `rna_sequence` (the three reading frames of
 #    `rna_sequence`, and the three reading frames of the reverse and complement
 #    of `rna_sequence`) and return (as a string) the longest sequence of amino
-#    acids that it encodes, according to the `genetic_code`.
-#
+#    acids that it encodes, according to the `genetic_code`
 #    If no amino acids can be translated from `rna_sequence` nor its reverse and
 #    complement, an empty string is returned.
 #
@@ -201,8 +191,37 @@ def get_longest_peptide(rna_sequence, genetic_code):
 #        A string of the longest sequence of amino acids encoded by
 #        `rna_sequence`.
 
-    pass
+    protein = get_all_translations(rna_sequence, genetic_code)
+    reverse_com = reverse_and_complement(rna_sequence)
+    reverse_trans = get_all_translations(reverse_com, genetic_code)
 
+    if protein:
+        for x in protein:
+            max_length = 0
+            peptide = 0
+            if len(x) > max_length:
+                peptide = x
+                max_length = len(x)
+        return peptide
+
+    elif reverse_trans:
+        for y in reverse_trans:
+            max_length = 0
+            peptide = 0
+            if len(y) > max_length:
+                peptide = y
+                max_length = len(y)
+        return max(reverse_trans, key=len)
+
+    elif not protein or reverse_trans:
+        return ''
+
+#If loop that checks for the length of the peptide that is provided. If the peptide is
+#longer than the previous one, the value should overwrite the smaller value and
+#be stored as peptide. For the reverse_trans function, I'm not sure why I have to
+#include max(...,key=len), as otherwise it doesn't work and gives me the shortest
+#peptide. If I type min(reverse_trans), the tests come out OK. Possibly don't understand
+#max and min fully.
 
 if __name__ == '__main__':
     genetic_code = {'GUC': 'V', 'ACC': 'T', 'GUA': 'V', 'GUG': 'V', 'ACU': 'T', 'AAC': 'N', 'CCU': 'P', 'UGG': 'W', 'AGC': 'S', 'AUC': 'I', 'CAU': 'H', 'AAU': 'N', 'AGU': 'S', 'GUU': 'V', 'CAC': 'H', 'ACG': 'T', 'CCG': 'P', 'CCA': 'P', 'ACA': 'T', 'CCC': 'P', 'UGU': 'C', 'GGU': 'G', 'UCU': 'S', 'GCG': 'A', 'UGC': 'C', 'CAG': 'Q', 'GAU': 'D', 'UAU': 'Y', 'CGG': 'R', 'UCG': 'S', 'AGG': 'R', 'GGG': 'G', 'UCC': 'S', 'UCA': 'S', 'UAA': '*', 'GGA': 'G', 'UAC': 'Y', 'GAC': 'D', 'UAG': '*', 'AUA': 'I', 'GCA': 'A', 'CUU': 'L', 'GGC': 'G', 'AUG': 'M', 'CUG': 'L', 'GAG': 'E', 'CUC': 'L', 'AGA': 'R', 'CUA': 'L', 'GCC': 'A', 'AAA': 'K', 'AAG': 'K', 'CAA': 'Q', 'UUU': 'F', 'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'GCU': 'A', 'GAA': 'E', 'AUU': 'I', 'UUG': 'L', 'UUA': 'L', 'UGA': '*', 'UUC': 'F'}
