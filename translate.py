@@ -3,7 +3,6 @@
 
 import sys
 
-sequence = input("Please enter an RNA sequence: ")
 complement_dict = {'A':'U', 'G':'C', 'C':'G', 'U':'A'}
 bases = ['A', 'a', 'U', 'u', 'C', 'c', 'G', 'g']
 
@@ -43,15 +42,14 @@ def translate_sequence(rna_sequence, genetic_code):
 #    str
 #        A string of the translated amino acids
 
-#    tr_codon = [genetic_code[code] for code in codon]
-#    return ''.join(tr_codon)
 
     rna_sequence = rna_sequence.upper()
     protein = []
     if len(rna_sequence) < 3:
         return ''
     elif len(rna_sequence) % 3 != 0:
-        rna_sequence = rna_sequence[:-1]
+        while len(rna_sequence) % 3 != 0:
+            rna_sequence = rna_sequence[:-1]
 
     for x in range(0, len(rna_sequence), 3):
         if genetic_code[rna_sequence[x:x+3]] == '*':
@@ -60,6 +58,11 @@ def translate_sequence(rna_sequence, genetic_code):
         codon = rna_sequence[x:x+3]
         protein += genetic_code[codon]
     return ''.join(protein)
+
+#Made a generator that is able to chunk the sequence into sections by 3. The if and elif
+#statements look for sequences less than 3 or sequences ending with extra neucleotides
+#that don't code for anything. If there are 1 or 2 extra nucleotides, they are chopped
+#off as they are not needed.
 
 def get_all_translations(rna_sequence, genetic_code):
 #Get a list of all amino acid sequences encoded by an RNA sequence.
@@ -92,7 +95,22 @@ def get_all_translations(rna_sequence, genetic_code):
 #        A list of strings; each string is an sequence of amino acids encoded by
 #        `rna_sequence`.
 
-    pass
+    rna_sequence = rna_sequence.upper()
+    protein = []
+    if len(rna_sequence) < 3:
+        return ''
+    for x in range(len(rna_sequence)):
+        codon = rna_sequence[x:x+3]
+        if codon == "AUG":
+            tran_seq = translate_sequence(rna_sequence[x:], genetic_code)
+            protein.append(tran_seq)
+    return protein
+
+#Generator that looks at each codon without translating it. Searches for AUG in the
+#RNA sequence; once found, calls the other function previously defined, but specifies
+#that is must start at position x. This goes on until another AUG is encountered. Append
+#is used since a list is specified for.
+
 
 def get_reverse(sequence):
 #    Reverse orientation of `sequence`.
@@ -111,8 +129,6 @@ def get_reverse(sequence):
     return (sequence[::-1]).upper()
 
 #Lists the sequence backwards
-
-print("The reversed sequence is", get_reverse(sequence))
 
 def get_complement(sequence):
 #Get the complement of a `sequence` of nucleotides.
@@ -135,9 +151,7 @@ def get_complement(sequence):
 #Used list comprehension to create a new list. Start by making the sequence input into
 #a list, all uppercase. Take that same list and find its value according to the dictionary
 #defined earlier, then make that into a new list. Finally join the new list together
-#with no separation in between letters to get the complement."""
-
-print("The complement is", get_complement(sequence))
+#with no separation in between letters to get the complement.""
 
 def reverse_and_complement(sequence):
 #Get the reversed and complemented form of a `sequence` of nucleotides.
@@ -158,9 +172,7 @@ def reverse_and_complement(sequence):
     seq = get_complement(seq)
     return seq
 
-#Takes the previous functions defined and uses them again here"""
-
-print("The reversed complement is", reverse_and_complement(sequence))
+#Takes the previous functions defined and uses them again here
 
 def get_longest_peptide(rna_sequence, genetic_code):
 #Get the longest peptide encoded by an RNA sequence.
