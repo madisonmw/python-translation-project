@@ -119,7 +119,10 @@ def vet_codon(codon):
     # Change `codon_pattern_str` so that it will match any valid codons, and
     # only valid codons.
     # Read the docstring above for additional clues.
-    codon_pattern_str = r'AUG'
+    codon_pattern_str = r'^[augcAUGC]{3}$'
+    #Matches the beginning of a string that's composed of a, u, g, or c, lower or upper
+    #case. {3} denotes the expression must be three characters long, and $ asserts
+    #that the string is no longer than 3.
     ##########################################################################
 
     codon_pattern = re.compile(codon_pattern_str)
