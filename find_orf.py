@@ -212,7 +212,12 @@ def find_first_orf(sequence,
     # exactly. Change `orf_pattern_str` so that it will match any open reading
     # frame.
     # Read the docstring above for additional clues.
-    orf_pattern_str = r'(AAA|AUG)[AUGC]*(UUU|UAG|UGA|UAA)+$'
+    orf_pattern_str = r'('+r'|'.join(starts)+r')(...)*('+r'|'.join(stops)+r')'
+    #After a lot of searching learned that +r joins raw strings together. Above
+    #shows '(' being joined to all defined start codons being joined together by 
+    #'|'. Have to join the middle string, which accounts for codons (3 character segements.)
+    #The same thing happens for the stop codons, where they are joined together and then
+    #closed by ')'. '|' works as an "or" operator.
     ##########################################################################
 
     # Create the regular expression object
