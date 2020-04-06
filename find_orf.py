@@ -57,8 +57,10 @@ def vet_nucleotide_sequence(sequence):
     # any valid RNA and DNA sequence strings, respectively (and only strings of
     # RNA and DNA bases).
     # Read the docstring above for additional clues.
-    rna_pattern_str = r'AUCG'
-    dna_pattern_str = r'ATCG'
+    rna_pattern_str = r'^[aucgAUCG]*$'
+    dna_pattern_str = r'^[atcgATCG]*$'
+    #Matches all none or all instances of a, u/t, c, or g, lower or upper case.
+    #$ ensures that no unspecified letters work their way in.
     ##########################################################################
 
     rna_pattern = re.compile(rna_pattern_str)
